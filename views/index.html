@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf8">
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.3.2/dist/socket.io.js"></script>
+	<script src ="https://cdn.jsdelivr.net/npm/js-cookie/src/js.cookie.js"></script>
+    <script type="module"src="js/index.js"></script>
+  </head>
+  <body>
+		<div id ="app">
+			<p>{{friends[0].text}}</p>
+			<ul id="message-list">
+				<message 
+					v-for="message in messages"
+					v-bind:message="message"
+					v-bind:key="message.id"
+				></message>
+			</ul>
+			<input v-model="messageContent">
+			<button v-on:click="send">Send</button>
+			<div id="friends">
+				<p>Friends</p>
+				<ul id="friend-list">
+					<li 
+						v-for="friend in friends"
+						v-if="friends.length"
+						v-on:click="setFriend(friend.id)"
+						>Friend:{{friend.text}}
+					</li>
+				</ul>
+			</div>
+			<div id="friend-requests">
+				<p>Friend Requests</p>
+				<div id="outgoing">
+					<p>Outgoing</p>
+					<ul>
+						<li 
+							
+						>Nothing here yet</li>
+					</ul>
+				</div>
+				<div id="incoming">
+					<p>Incoming</p>
+					<friend-request
+						v-for="incoming in incoming_requests"
+						v-bind:request="request"
+						v-on:accept-request="acceptRequest()"
+						V-on:deny-request="denyRequest()"
+					></friend-request>
+				</div>
+				<p v-on:click="denyRequest()">asd</p>
+			</div>
+		</div>
+	</body>
+<form action="/logout?_method=DELETE" method="POST">
+    <button type="submit">Log out</button>
+</form>
+</html>
